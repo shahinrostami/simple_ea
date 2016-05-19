@@ -20,7 +20,7 @@ fn initialise_population(initial_population: bool) -> [Solution; 100] {
     if initial_population {
         for solution in &mut population[..] {
             for parameter in &mut solution.parameters[..] {
-                let Closed01(parameter) = random::<Closed01<f32>>();
+                *parameter = random::<Closed01<f32>>().0;
             }
 
             solution.objectives = zdt1(solution.parameters);
