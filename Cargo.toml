@@ -1,6 +1,7 @@
 [package]
 name = "simple_ea"
 version = "0.1.0"
-authors = ["Tablet"]
+authors = ["Dr. Shahin Rostami"]
 
 [dependencies]
+rand = "0.3"
