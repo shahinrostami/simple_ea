@@ -1,7 +1,9 @@
 extern crate rand;
+
 mod zdt1;
 mod dominates;
 mod gaussian_mutation;
+
 use rand::{random, Closed01};
 use zdt1::zdt1;
 use dominates::dominates;
