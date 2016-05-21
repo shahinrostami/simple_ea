@@ -31,15 +31,37 @@ fn initialise_population(initial_population: bool) -> [Solution; 100] {
 }
 
 fn main() {
-    let generations = 10;
+    let generations = 1000;
     let mutation_rate = 0.2_f32;
     let mut parent_population = initialise_population(true);
-    let mut offspring_population = initialise_population(false);
 
     for gen in 0..generations {
-        for solution in &mut parent_population[..] {
-            solution.parameters = gaussian_mutation(solution.parameters, mutation_rate);
-            solution.objectives = zdt1(solution.parameters);
+        for i in 0..parent_population.len() {
+            let mut candidate_solution = Solution {
+                parameters: parent_population[i].parameters,
+                objectives: parent_population[i].objectives,
+            };
+
+            candidate_solution.parameters = gaussian_mutation(parent_population[i].parameters,
+                                                              mutation_rate);
+            candidate_solution.objectives = zdt1(candidate_solution.parameters);
+
+            if dominates(candidate_solution.objectives,
+                         parent_population[i].objectives) {
+                parent_population[i] = candidate_solution;
+            }
         }
     }
+
+    for i in 0..parent_population.len() {
+        println!("{:?}", parent_population[i].objectives);
+    }
+}
+
+fn dominates(offspring_objectives: [f32; 2], parent_objectives: [f32; 2]) -> bool {
+    if (offspring_objectives[0] <= parent_objectives[0]) &&
+       (offspring_objectives[1] <= parent_objectives[1]) {
+        return true;
+    }
+    return false;
 }
