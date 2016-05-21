@@ -1,8 +1,10 @@
 extern crate rand;
 mod zdt1;
+mod dominates;
 mod gaussian_mutation;
 use rand::{random, Closed01};
 use zdt1::zdt1;
+use dominates::dominates;
 use gaussian_mutation::gaussian_mutation;
 
 #[derive(Copy, Clone, Debug)]
@@ -35,7 +37,7 @@ fn main() {
     let mutation_rate = 0.2_f32;
     let mut parent_population = initialise_population(true);
 
-    for gen in 0..generations {
+    for _ in 0..generations {
         for i in 0..parent_population.len() {
             let mut candidate_solution = Solution {
                 parameters: parent_population[i].parameters,
@@ -56,12 +58,4 @@ fn main() {
     for i in 0..parent_population.len() {
         println!("{:?}", parent_population[i].objectives);
     }
-}
-
-fn dominates(offspring_objectives: [f32; 2], parent_objectives: [f32; 2]) -> bool {
-    if (offspring_objectives[0] <= parent_objectives[0]) &&
-       (offspring_objectives[1] <= parent_objectives[1]) {
-        return true;
-    }
-    return false;
 }
